@@ -1,7 +1,7 @@
 # QEMU-iOS 
 
 # This is a great repo, I am adding an instruction that will fix errors on Apple Silicon macOS  Works for M2 Max.
-
+# also my syntax for markdown is all messaed up, in order to actually read my instructions it is recommended to download this file and read it in a TextEdit, BBEdit, Etc.
 
 Follow all original instructions VVV double check the authors links down below if errors are present at this point right here directly below in the (())
 
