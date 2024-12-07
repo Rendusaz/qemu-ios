@@ -38,18 +38,22 @@ pthread_setname_np(*thread, "jack-client");
 // Change this function to accept uint64_t directly instead of void* 
 
 static uint64_t swapLong(uint64_t x) {
-    // Implement byte swapping for uint64_t
-    return ((x & 0xFF00000000000000ull) >> 56) |
-           ((x & 0x00FF000000000000ull) >> 40) |
-           ((x & 0x0000FF0000000000ull) >> 24) |
-           ((x & 0x000000FF00000000ull) >> 8)  |
-           ((x & 0x00000000FF000000ull) << 8)  |
-           ((x & 0x0000000000FF0000ull) << 24) |
-           ((x & 0x000000000000FF00ull) << 40) |
-           ((x & 0x00000000000000FFull) << 56);
+
+     // Implement byte swapping for uint64_  
+
+    
+   return ((x & 0xFF00000000000000ull) >> 56) |
+          ((x & 0x00FF000000000000ull) >> 40) |
+          ((x & 0x0000FF0000000000ull) >> 24) |
+          ((x & 0x000000FF00000000ull) >> 8)  |
+          ((x & 0x00000000FF000000ull) << 8)  |
+          ((x & 0x0000000000FF0000ull) << 24) |
+          ((x & 0x000000000000FF00ull) << 40) |
+          ((x & 0x00000000000000FFull) << 56);
 }
 
 // Then modify the problematic line to:
+
 uint64_t data_length = swapLong(((uint64_t *)s->buffer)[s->buffer_ind / 8 - 1]) / 8;
 
 Also, add 
@@ -57,17 +61,25 @@ Also, add
 #include <openssl/evp.h>
 
 // Replace the SHA1 calls with:
+
 EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+
 const EVP_MD *md = EVP_sha1();
+
 EVP_DigestInit_ex(mdctx, md, NULL);
+
 EVP_DigestUpdate(mdctx, s->buffer, data_length);
+
 EVP_DigestFinal_ex(mdctx, s->hashout, NULL);
+
 EVP_MD_CTX_free(mdctx);
 
 The complese section should look like this 
 
 uint64_t data_length = swapLong(((uint64_t *)s->buffer)[s->buffer_ind / 8 - 1]) / 8;
+
 if (data_length > 0) {
+
     EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
     const EVP_MD *md = EVP_sha1();
     EVP_DigestInit_ex(mdctx, md, NULL);
