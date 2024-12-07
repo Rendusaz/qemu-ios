@@ -1,5 +1,28 @@
 # QEMU-iOS
 
+This is a great repo, I am adding an instruction that will fix errors on Apple Silicon macOS
+Works for M2 Max at least. 
+
+
+Follow all original instructions VVV double check the authors links down below if errors are present at this point right here directly below in the (())
+
+(( git clone, brew install  glib ninja pixman pkg-config sdl2, mkdir build && cd build, 
+ ./configure --enable-sdl --target-list=arm-softmmu --disable-capstone --disable-pie --disable-slirp --extra-cflags=-I/opt/homebrew/opt/openssl@3/include --extra-ldflags='-L/opt/homebrew/opt/openssl@3/lib -lcrypto',  make -j6))
+
+after running these you should be ready to run, 
+original instructions say 
+"./arm-softmmu/qemu-system-arm -M iPod-Touch,bootrom=<path to bootrom>,nand=<path to NAND directory>,nor=<path to NOR directory> -serial mon:stdio -cpu max -m 2G -d unimp"
+we are simply adding a "-display sdl" flag resulting in
+
+./arm-softmmu/qemu-system-arm -M iPod-Touch,bootrom=<path to bootrom>,nand=<path to NAND directory>,nor=<path to NOR directory> -serial mon:stdio -cpu max -m 2G -d unimp -display sdl
+
+should work fine with that,
+also ,for controls.. H=HOME, L=LOCK(?), P=POWER(?), Additional(?)
+
+Steps to fix the original iPod 1 emulator linked on here is a little more involved and the instructions are there on my profile. Hope it fixed any issues.
+
+
+
 QEMU-iOS is an emulator for legacy Apple devices.
 Currently, the iPod Touch 1G and iPod Touch 2G are supported.
 
