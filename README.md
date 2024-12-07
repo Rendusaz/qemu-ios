@@ -35,7 +35,8 @@ pthread_setname_np(*thread, "jack-client");
 #endif
 
 # the at hw/arm/ipod_touch_sha1.c 
-// Change this function to accept uint64_t directly instead of void*
+// Change this function to accept uint64_t directly instead of void* 
+
 static uint64_t swapLong(uint64_t x) {
     // Implement byte swapping for uint64_t
     return ((x & 0xFF00000000000000ull) >> 56) |
