@@ -1,7 +1,7 @@
 # QEMU-iOS 
 
 # This is a great repo, I am adding an instruction that will fix errors on Apple Silicon macOS  Works for M2 Max.
-# also my syntax for markdown is all messaed up, in order to actually read my instructions it is recommended to download this file and read it in a TextEdit, BBEdit, Etc.
+## also my syntax for markdown is all messaed up, in order to actually read my instructions it is recommended to download this file and read it in a TextEdit, BBEdit, Etc.
 
 Follow all original instructions VVV double check the authors links down below if errors are present at this point right here directly below in the (())
 
@@ -13,7 +13,7 @@ original instructions say
 "./arm-softmmu/qemu-system-arm -M iPod-Touch,bootrom=<path to bootrom>,nand=<path to NAND directory>,nor=<path to NOR directory> -serial mon:stdio -cpu max -m 2G -d unimp"
 we are simply adding a "-display sdl" flag resulting in
 
-# ./arm-softmmu/qemu-system-arm -M iPod-Touch,bootrom=<path to bootrom>,nand=<path to NAND directory>,nor=<path to NOR directory> -serial mon:stdio -cpu max -m 2G -d unimp -display sdl
+### ./arm-softmmu/qemu-system-arm -M iPod-Touch,bootrom=<path to bootrom>,nand=<path to NAND directory>,nor=<path to NOR directory> -serial mon:stdio -cpu max -m 2G -d unimp -display sdl
 
 should work fine with that,
 also ,for controls.. H=HOME, L=LOCK(?), P=POWER(?), Additional(?)
@@ -22,7 +22,7 @@ Steps to fix the original iPod 1 emulator linked on here is a little more involv
 # edit, instructions for the iPod/iOS 1g emulator fixes are on this readme, follow below.
 
 after cloning and following all the instructions from orginal author, you might have issues with a few things,
-# the file at audio/jackaudio.c this edit will be made, this is an improvement to allow both macOS AND linux as the original only allows linux
+### the file at audio/jackaudio.c this edit will be made, this is an improvement to allow both macOS AND linux as the original only allows linux
 
 // Replace this line:
 pthread_setname_np(*thread, "jack-client");
@@ -34,7 +34,7 @@ pthread_setname_np(*thread, "jack-client");
     pthread_setname_np(*thread, "jack-client");
 #endif
 
-# the at hw/arm/ipod_touch_sha1.c 
+### the file at hw/arm/ipod_touch_sha1.c 
 // Change this function to accept uint64_t directly instead of void* 
 
 static uint64_t swapLong(uint64_t x) {
