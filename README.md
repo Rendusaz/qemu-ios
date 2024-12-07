@@ -19,7 +19,64 @@ should work fine with that,
 also ,for controls.. H=HOME, L=LOCK(?), P=POWER(?), Additional(?)
 
 Steps to fix the original iPod 1 emulator linked on here is a little more involved and the instructions are there on my profile. Hope it fixed any issues.
+# edit, instructions for the iPod/iOS 1g emulator fixes are on this readme, follow below.
 
+after cloning and following all the instructions from orginal author, you might have issues with a few things,
+# the file at audio/jackaudio.c this edit will be made, this is an improvement to allow both macOS AND linux as the original only allows linux
+
+// Replace this line:
+pthread_setname_np(*thread, "jack-client");
+
+// With this platform-specific code:
+#ifdef __APPLE__
+    pthread_setname_np("jack-client");
+#else
+    pthread_setname_np(*thread, "jack-client");
+#endif
+
+# the at hw/arm/ipod_touch_sha1.c 
+// Change this function to accept uint64_t directly instead of void*
+static uint64_t swapLong(uint64_t x) {
+    // Implement byte swapping for uint64_t
+    return ((x & 0xFF00000000000000ull) >> 56) |
+           ((x & 0x00FF000000000000ull) >> 40) |
+           ((x & 0x0000FF0000000000ull) >> 24) |
+           ((x & 0x000000FF00000000ull) >> 8)  |
+           ((x & 0x00000000FF000000ull) << 8)  |
+           ((x & 0x0000000000FF0000ull) << 24) |
+           ((x & 0x000000000000FF00ull) << 40) |
+           ((x & 0x00000000000000FFull) << 56);
+}
+
+// Then modify the problematic line to:
+uint64_t data_length = swapLong(((uint64_t *)s->buffer)[s->buffer_ind / 8 - 1]) / 8;
+
+Also, add 
+
+#include <openssl/evp.h>
+
+// Replace the SHA1 calls with:
+EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+const EVP_MD *md = EVP_sha1();
+EVP_DigestInit_ex(mdctx, md, NULL);
+EVP_DigestUpdate(mdctx, s->buffer, data_length);
+EVP_DigestFinal_ex(mdctx, s->hashout, NULL);
+EVP_MD_CTX_free(mdctx);
+
+The complese section should look like this 
+
+uint64_t data_length = swapLong(((uint64_t *)s->buffer)[s->buffer_ind / 8 - 1]) / 8;
+if (data_length > 0) {
+    EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+    const EVP_MD *md = EVP_sha1();
+    EVP_DigestInit_ex(mdctx, md, NULL);
+    EVP_DigestUpdate(mdctx, s->buffer, data_length);
+    EVP_DigestFinal_ex(mdctx, s->hashout, NULL);
+    EVP_MD_CTX_free(mdctx);
+}
+
+
+This will fix the errors, from here you can run make or make -j8
 
 
 QEMU-iOS is an emulator for legacy Apple devices.
