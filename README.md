@@ -1,7 +1,6 @@
 # QEMU-iOS 
 
-# This is a great repo, I am adding an instruction that will fix errors on Apple Silicon macOS
-# Works for M2 Max at least. 
+# This is a great repo, I am adding an instruction that will fix errors on Apple Silicon macOS  Works for M2 Max.
 
 
 Follow all original instructions VVV double check the authors links down below if errors are present at this point right here directly below in the (())
